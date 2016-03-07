@@ -28,7 +28,7 @@ public class EnjoyWeatherDB {
     //数据库版本
     private static final int VERSION = 1;
 
-    //构造方法无返回值,也不用void
+    //私有构造方法
     private EnjoyWeatherDB(Context context) {
         EnjoyWeatherOpenHelper dbOpenHelper = new EnjoyWeatherOpenHelper(context, DB_NAME, null, VERSION);
         db = dbOpenHelper.getWritableDatabase();
@@ -59,6 +59,7 @@ public class EnjoyWeatherDB {
         if (cursor.moveToFirst()) {
             do {
                 Province province = new Province();
+                province.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 province.setProvinceName(cursor.getString(cursor.getColumnIndex("province_name")));
                 province.setProvinceCode(cursor.getString(cursor.getColumnIndex("province_code")));
                 provinceList.add(province);
@@ -81,10 +82,11 @@ public class EnjoyWeatherDB {
     //从数据库中读取数据
     public List<City> loadCitys(int provinceId) {
         List<City> cityList = new ArrayList<City>();
-        Cursor cursor = db.query("City", null, "province_id = ?", new String[]{String.valueOf(provinceId)},null, null, null, null);
+        Cursor cursor = db.query("City", null, "province_id = ?", new String[]{String.valueOf(provinceId)}, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 City city = new City();
+                city.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
                 city.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
                 city.setProvinceId(provinceId);
@@ -112,6 +114,7 @@ public class EnjoyWeatherDB {
         if (cursor.moveToFirst()) {
             do {
                 County county = new County();
+                county.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 county.setCountyName(cursor.getString(cursor.getColumnIndex("county_name")));
                 county.setCountyCode(cursor.getString(cursor.getColumnIndex("county_code")));
                 county.setCityId(cityId);
