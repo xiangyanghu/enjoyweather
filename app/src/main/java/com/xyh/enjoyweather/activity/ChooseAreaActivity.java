@@ -112,7 +112,7 @@ public class ChooseAreaActivity extends Activity {
     ////加载县级数据
     private void queryCounties() {
         countyList = weatherDB.loadCountys(selectedCity.getId());
-        if (cityList.size() > 0) {
+        if (countyList.size() > 0) {
             dataList.clear();
             for (County county : countyList) {
                 dataList.add(county.getCountyName());
@@ -199,7 +199,6 @@ public class ChooseAreaActivity extends Activity {
     //捕获back按钮,根据当前等级判断,此时应该返回到省,市列表还是直接退出
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (currentLevel == LEVEL_COUNTY) {
             queryCities();
         }else if (currentLevel == LEVEL_CITY) {
