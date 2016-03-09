@@ -2,7 +2,10 @@ package com.xyh.enjoyweather.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,6 +54,13 @@ public class ChooseAreaActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("city_selected",false)) {
+            Intent intent = new Intent(this, WeatherActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         setContentView(R.layout.choose_area);
         initView();
         dataList = new ArrayList<String>();
@@ -67,6 +77,12 @@ public class ChooseAreaActivity extends Activity {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCounties();
+                }else if (currentLevel == LEVEL_COUNTY) {
+                    String countyCode = countyList.get(position).getCountyCode();
+                    Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+                    intent.putExtra("county_code",countyCode);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -138,14 +154,14 @@ public class ChooseAreaActivity extends Activity {
         showProgressDialog();
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
-            public void onFinish(String reponse) {
+            public void onFinish(String response) {
                 boolean result = false;
                 if ("province".equals(type)) {
-                    result = Utility.handleProvinceReponse(weatherDB, reponse);
+                    result = Utility.handleProvinceResponse(weatherDB, response);
                 }else if ("city".equals(type)) {
-                    result = Utility.handleCityReponse(weatherDB, reponse,selectedProvince.getId());
+                    result = Utility.handleCityResponse(weatherDB, response,selectedProvince.getId());
                 }else if ("county".equals(type)) {
-                    result = Utility.handleCountyReponse(weatherDB, reponse, selectedCity.getId());
+                    result = Utility.handleCountyResponse(weatherDB, response, selectedCity.getId());
                 }
 
                 if (result) {
