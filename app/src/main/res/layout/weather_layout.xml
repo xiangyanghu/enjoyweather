@@ -6,37 +6,38 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#ffff99">
+        android:background="#ff11cd6e">
 
         <Button android:id="@+id/btn_switchCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="切换城市"
-            android:textSize="20sp"/>
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/qiehuan" />
 
         <TextView android:id="@+id/tv_cityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="35sp"
             android:layout_centerInParent="true"
-            android:textColor="#ff0000"
+            android:textColor="#f4c600"
             android:text="枣阳"/>
 
         <Button android:id="@+id/btn_refreshWeather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:text="刷新天气"
-            android:textSize="20sp"/>
+            android:background="@mipmap/cloudrefresh" />
     </RelativeLayout>
 
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/weather1"
         android:layout_weight="1">
 
         <TextView android:id="@+id/tv_time"
@@ -44,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:text="20:00"/>
 
         <LinearLayout android:id="@+id/weatherInfo_layout"

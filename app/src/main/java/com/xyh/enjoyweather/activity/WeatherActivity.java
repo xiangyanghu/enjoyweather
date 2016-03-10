@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xyh.enjoyweather.R;
+import com.xyh.enjoyweather.service.AutoUpdateService;
 import com.xyh.enjoyweather.util.HttpCallbackListener;
 import com.xyh.enjoyweather.util.HttpUtil;
 import com.xyh.enjoyweather.util.Utility;
@@ -66,6 +68,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(this, ChooseAreaActivity.class);
                 intent.putExtra("from_weather_activity", true);
                 startActivity(intent);
+                Log.d("WeatherActivity","------切换城市按钮启动");
                 finish();
                 break;
             case R.id.btn_refreshWeather:
@@ -146,13 +149,15 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
         //这个方法不执行
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         tvCityName.setText(prefs.getString("city_name","error"));
-        tvTime.setText(prefs.getString("time", "error"));
+        tvTime.setText("今天"+prefs.getString("time", "error")+"发布");
         System.out.println("22-----showWeather()执行");
         tvDate.setText(prefs.getString("date", "error"));
         tvWeather.setText(prefs.getString("weather", "error"));
         tvMinTemp.setText(prefs.getString("min_temp", "error"));
-        tvMaxTemp.setText(prefs.getString("max_temp","error"));
+        tvMaxTemp.setText(prefs.getString("max_temp", "error"));
         tvWeather.setVisibility(View.VISIBLE);
         weatherLayout.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 }
